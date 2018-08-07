@@ -3,12 +3,15 @@ const mongoose = require('mongoose');
 const profileSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     handle: {
         type: String,
-        required: true,
         maxlength: 60
+    },
+    company: {
+        type: String
     },
     skills: {
         type: [String], //array
@@ -37,7 +40,7 @@ const profileSchema = new mongoose.Schema({
         trim: true
     },
     experience: [
-        {
+       {
             title: {
                 type: String,
                 required: true
@@ -63,7 +66,7 @@ const profileSchema = new mongoose.Schema({
             description: {
                 type: String
             }
-        }
+       }
     ],
     education: [
         {
@@ -86,33 +89,31 @@ const profileSchema = new mongoose.Schema({
             to: {
                 type: Date
             }
-
         }
     ],
-    social: [
-        {
-            youtube: {
-                type: String
-            },
-            facebook: {
-                type: String
-            },
-            linkedin: {
-                type: String
-            },
-            instagram: {
-                type: String
-            },
-            github: {
-                type: String
-            },
-            twitter: {
-                type: String
-            }
+    social: {
+        youtube: {
+            type: String
+        },
+        facebook: {
+            type: String
+        },
+        linkedin: {
+            type: String
+        },
+        instagram: {
+            type: String
+        },
+        github: {
+            type: String
+        },
+        twitter: {
+            type: String
         }
-    ],
+    },
     date: {
-        
+        type: Date,
+        default: Date.now()
     }
 });
 
