@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const { ObjectId } = require('mongoose').Types;
 const passport = require('passport');
 
 //validation function
@@ -28,6 +29,81 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
         })
         .catch(err => {
             res.status(400).json(err);
+        });
+});
+
+/*
+    @route  GET/ profile/handle/:handle
+    @desc   get user profile by idA
+    @acess  public
+*/
+router.get('/handle/:handle', (req , res) => {
+    const handle = req.params.handle;
+
+    Profile.findOne({handle})
+        .populate('user', 'name avatar date')
+        .then(profile => {
+            if (!profile) {
+                return res.status(404).json({
+                    message: 'Profile not found'
+                });
+            }
+
+        res.json(profile);
+    }).catch(err => {
+        res.status(400).json({message: 'try again', err});
+    });
+});
+
+/*
+    @route  GET/ profile/user/:user_id
+    @desc   get user profile by id
+    @acess  public
+*/
+router.get('/user/:user_id', (req , res) => {
+    const ID = req.params.user_id;
+
+    if (! ObjectId.isValid(ID) ) {
+        return res.status(400).json({
+            message: 'Profile not found'
+        });
+    }
+
+    Profile.findOne({user: ID})
+        .populate('user', 'name avatar date')
+        .then(profile => {
+            if (!profile) {
+                return res.status(404).json({
+                    message: 'Profile not found'
+                });
+            }
+
+        res.json(profile);
+    }).catch(err => {
+        res.status(400).json({message: 'try again', err});
+    });
+});
+
+/*
+    @route  GET/ profile/all
+    @desc   get all profiles
+    @acess  public
+*/
+router.get('/all', (req, res) => {
+    Profile.find()
+        .populate('user', 'name avatar')
+        .then(profiles => {
+            if (!profiles) {
+                return res.status(404).json({message: 'There are no profiles'});
+            }
+
+            res.json({
+                count: profiles.length,
+                profiles
+            });
+        })
+        .catch(err => {
+            res.status(400).json({message: 'There are no profiles', err});
         });
 });
 
@@ -109,5 +185,6 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
         });
 
 });
+
 
 module.exports = router;
