@@ -108,7 +108,8 @@ router.post('/login', (req, res) => {
 
                 res.json({
                     message: 'Authentication successed',
-                    token: `Bearer ${token}`
+                    token: `Bearer ${token}`,
+                    userData
                 });
             } else {
                 errors.password = 'Password is incorrect';

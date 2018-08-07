@@ -8,7 +8,8 @@ const profileSchema = new mongoose.Schema({
     },
     handle: {
         type: String,
-        maxlength: 60
+        maxlength: 60,
+        required: true
     },
     company: {
         type: String

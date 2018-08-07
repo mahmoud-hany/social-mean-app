@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 const passport = require('passport');
+
+//validation function
+const validatProfileInputs = require('../../validation/profile');  
+
 const Profile = require('../models/profile');
 
 //notice that we have user data so we don't need  profile/id
@@ -11,7 +15,8 @@ const Profile = require('../models/profile');
     @acess  private
 */
 router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
-    Profile.findOne({ x: req.user.id})
+    Profile.findOne({ user: req.user.id})
+        .populate('user', 'name avatar date')
         .then(profile => {
             if (!profile) {
                 return res.status(404).json({
@@ -32,6 +37,12 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
     @acess  private
 */
 router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+    const {errors, isVaild} = validatProfileInputs(req.body);
+
+    if (!isVaild) {
+        return res.status(400).json(errors);
+    }
+
     const DATA = req.body; // Data coming from the user
 
     const profileData = {}; // Data that will be added to database
