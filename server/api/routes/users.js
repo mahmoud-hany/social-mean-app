@@ -3,6 +3,7 @@ const router = express.Router();
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const passport = require('passport');
 
 const User = require('../models/user');
 
@@ -82,7 +83,7 @@ router.post('/login', (req, res) => {
        // if the email exist | compare password with the hashed password 
        bcrypt.compare( password, user.password ).then( isMatch => {
 
-            if (isMatch) { // password and email matches
+            if (isMatch) { // password matches
                 const userData = {
                     id: user._id,
                     name: user.name,
@@ -112,5 +113,19 @@ router.post('/login', (req, res) => {
     });
 });
 
+/*
+    @route  POST/ users/current
+    @desc   Return current user
+    @acess  private
+*/
+router.get('/current', passport.authenticate('jwt', {session: false}), (req, res) => {
+    res.json({
+        id: req.user._id,
+        name: req.user.name,
+        email: req.user.email,
+        date: req.user.date,
+        avatar: req.user.avatar
+    });
+});
 
 module.exports = router;
