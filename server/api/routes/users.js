@@ -5,8 +5,11 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
-const User = require('../models/user');
+//validation functions
+const registerValidation = require('../../validation/register');
+const loginValidation = require('../../validation/login');
 
+const User = require('../models/user');
 const tokenKey = require('../../config/keys').tokenKey;
 
 /*
@@ -15,12 +18,16 @@ const tokenKey = require('../../config/keys').tokenKey;
     @acess  Public
 */
 router.post('/register', (req, res) => {
-    
+    const {isValid, errors} = registerValidation(req.body);
+
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
     User.findOne({email: req.body.email}).then( user => {
         if( user ) {
-            return res.status(409).json({
-                message: 'E-mail is already exist'
-            });
+            errors.email = 'E-mail is already exist';
+            return res.status(409).json(errors);
         }
         const avatar = gravatar.url(req.body.email, {
             s: 200, //size
@@ -70,6 +77,13 @@ router.post('/register', (req, res) => {
     @acess  Public
 */
 router.post('/login', (req, res) => {
+
+    const {isValid, errors} = loginValidation(req.body);
+
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
     const email = req.body.email;
     const password = req.body.password;
 
@@ -97,9 +111,8 @@ router.post('/login', (req, res) => {
                     token: `Bearer ${token}`
                 });
             } else {
-                res.status(409).json({
-                    message: 'Password incorect'
-                });
+                errors.password = 'Password is incorrect';
+                res.status(409).json(errors);
             }
         }).catch(err => {
             res.status(400).json(err);
