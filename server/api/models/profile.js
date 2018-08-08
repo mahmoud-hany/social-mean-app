@@ -9,10 +9,12 @@ const profileSchema = new mongoose.Schema({
     handle: {
         type: String,
         maxlength: 60,
-        required: true
+        required: true,
+        trim: true
     },
     company: {
-        type: String
+        type: String,
+        trim: true
     },
     skills: {
         type: [String], //array
@@ -44,14 +46,17 @@ const profileSchema = new mongoose.Schema({
        {
             title: {
                 type: String,
-                required: true
+                required: true,
+                trim: true
             },
             company: {
                 type: String,
-                required: true
+                required: true,
+                trim: true
             },
             location: {
                 type: String,
+                trim: true
             },
             from: {
                 type: Date,
@@ -100,22 +105,28 @@ const profileSchema = new mongoose.Schema({
     ],
     social: {
         youtube: {
-            type: String
+            type: String,
+            trim: true
         },
         facebook: {
-            type: String
+            type: String,
+            trim: true
         },
         linkedin: {
-            type: String
+            type: String,
+            trim: true
         },
         instagram: {
-            type: String
+            type: String,
+            trim: true
         },
         github: {
-            type: String
+            type: String,
+            trim: true
         },
         twitter: {
-            type: String
+            type: String,
+            trim: true
         }
     },
     date: {
