@@ -10,6 +10,7 @@ const validateExpInputs = require('../../validation/experience');
 const validateEducation = require('../../validation/education');
 
 const Profile = require('../models/profile');
+const User = require('../models/user');
 
 //notice that we have user data so we don't need  profile/id
 /*
@@ -189,6 +190,27 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
 
 
 /*
+    @route  DELETE /profile
+    @desc   delete profile page
+    @acess  private
+*/
+router.delete('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+    const ID = req.user.id;
+    Profile.findOneAndRemove({ user: ID})
+        .then(() => {
+            User.findByIdAndRemove(ID).then(() => {
+                res.json({ message: 'Profile and User was deleted Successfully'});
+            })
+            .catch(error => {
+                res.status(400).json(error);
+            })
+        })
+        .catch( err => {
+            res.status(400).json(err);
+        });
+});
+
+/*
     @route  POST/ profile/experience
     @desc   adding experience to user profile
     @acess  private
@@ -351,6 +373,6 @@ router.delete('/education/:edu_id', passport.authenticate('jwt', { session: fals
         .catch(err => {
             res.status(400).json(err);
         });
-})
+});
 
 module.exports = router;
