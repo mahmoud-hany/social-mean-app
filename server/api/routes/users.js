@@ -50,8 +50,7 @@ router.post('/register', (req, res) => {
                 newUser.password = hashedPassword;
                 newUser.save().then(result => {
                     res.json({
-                        message: 'Authentication successed',
-                        result
+                        message: 'Authentication successed'
                     })
                 }).catch(e => {
                     res.status(400).json({
@@ -108,8 +107,7 @@ router.post('/login', (req, res) => {
 
                 res.json({
                     message: 'Authentication successed',
-                    token: `Bearer ${token}`,
-                    userData
+                    token: `Bearer ${token}`
                 });
             } else {
                 errors.password = 'Password is incorrect';
