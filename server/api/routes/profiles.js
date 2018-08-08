@@ -5,7 +5,9 @@ const { ObjectId } = require('mongoose').Types;
 const passport = require('passport');
 
 //validation function
-const validatProfileInputs = require('../../validation/profile');  
+const validatProfileInputs = require('../../validation/profile');
+const validateExpInputs = require('../../validation/experience');
+const validateEducation = require('../../validation/education');
 
 const Profile = require('../models/profile');
 
@@ -183,8 +185,93 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
         .catch(err => {
             res.status(400).json(err);
         });
-
 });
+
+
+/*
+    @route  POST/ profile/experience
+    @desc   adding experience to user profile
+    @acess  private
+*/
+router.post('/experience', passport.authenticate('jwt', {session: false}), (req, res) => {
+    const { errors, isValid } = validateExpInputs(req.body);
+
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
+    Profile.findOne({ user: req.user.id })
+        .then( profile => {
+            if (!profile) {
+                return res.status(404).json({message: 'Create a profile First to add experiecne'});
+            }
+
+            const newExp = {
+                title: req.body.title,
+                company: req.body.company,
+                location: req.body.location,
+                from: req.body.from,
+                to: req.body.to,
+                current: req.body.current,
+                description: req.body.description
+            };
+            // add experiece to the experiecne arrray
+            profile.experience.unshift(newExp);
+            
+            // save the profile
+            profile.save().then( () => {
+                res.json({ message: 'Experience was added successfully'});
+            }).catch(er => {
+                res.status(400).json({ message: 'Unable to save experience', er });
+            });
+        }).catch( err => {
+            res.status(400).json(err);
+        });
+       
+});
+
+
+
+/*
+    @route  POST/ profile/education
+    @desc   adding education to user profile
+    @acess  private
+*/
+router.post('/education', passport.authenticate('jwt', { session: false } ), (req, res) => {
+    const {errors, isValid} = validateEducation(req.body);
+
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
+    Profile.findOne({ user: req.user.id }).then( profile => {
+        if (!profile) {
+            return res.status(404).json({message: 'Create a profile First to add education'})
+        }
+
+        const newEducation = {
+            school: req.body.school,
+            degree: req.body.degree,
+            fieldofstudy: req.body.fieldofstudy,
+            from: req.body.from,
+            to: req.body.to,
+            description: req.body.description,
+        };
+
+        // add education to the experiecne arrray
+        profile.education.unshift(newEducation);
+            
+        // save the profile
+        profile.save().then( () => {
+            res.json({ message: 'Education was added successfully'});
+        }).catch(er => {
+            res.status(400).json({ message: 'Unable to save education', er });
+        });
+  
+    }).catch( err => {
+        res.status(400).json(err);
+    });
+})
 
 
 module.exports = router;

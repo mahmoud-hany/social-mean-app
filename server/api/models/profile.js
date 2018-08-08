@@ -73,22 +73,28 @@ const profileSchema = new mongoose.Schema({
         {
             school: {
                 type: String,
-                required: true
+                required: true,
+                trim: true
             },
             degree: {
                 type: String,
-                required: true
+                required: true,
+                trim: true
             },
-            fieldofdescription: {
+            fieldofstudy: {
                 type: String,
-                required: true
+                trim: true
             },
             from: {
                 type: Date,
-                required: true
+                required: true,
             },
             to: {
                 type: Date
+            },
+            description: {
+                type: String,
+                trim: true
             }
         }
     ],
