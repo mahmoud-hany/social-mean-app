@@ -48,11 +48,10 @@ router.post('/register', (req, res) => {
                 if (err || error) throw err || error;
                 
                 newUser.password = hashedPassword;
-                newUser.save().then(user => {
+                newUser.save().then(() => {
                     res.json({
-                        message: 'Authentication successed',
-                        user
-                    })
+                        message: 'Authentication successed'
+                    });
                 }).catch(e => {
                     res.status(400).json({
                         message: 'Unable to save the user',

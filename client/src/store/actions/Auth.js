@@ -1,5 +1,8 @@
 import * as actionTypes from './actionTypes';
+
 import axios from 'axios';
+
+import jwt_decode from 'jwt-decode';
 
 //start request
 export const authStart = () => {
@@ -19,12 +22,19 @@ export const authSucess = (userData) => {
 //get response [ Request Failed ]
 export const authFail = (errors) => {
     return {
-        type: actionTypes.authFail,
+        type: actionTypes.AUTH_FAIL,
         errors
     };
 };
 
-export const auth = (userData, isSignup) => {
+// redirect user to login page In case of Registration success
+export const redirectToLogin = () => {
+    return {
+        type: actionTypes.REDIRECT_TO_LOGIN
+    }
+}
+
+export const auth = (userData, isSignup, history) => {
     return dispatch => {
         // turn loding on
         dispatch(authStart());
@@ -37,9 +47,28 @@ export const auth = (userData, isSignup) => {
         // send request
         axios.post(`/api/users/${url}`, userData)
             .then(res => {
-                dispatch(authSucess(res.data))
+                console.log(res);
+                
+                //Redirect user if he register to login
+                if (isSignup) {
+                    history.push('/login');
+                    return; 
+                }
+
+                // get the token and user data when user login
+                const token = res.data.token;
+                console.log(token);
+
+                //store token in localStorage
+                localStorage.setItem('Token', token);
+
+                const decodedToken = jwt_decode(token);
+                console.log(decodedToken);
+
+                dispatch(authSucess(decodedToken));
             })
             .catch(err => {
+                console.log(err)
                 dispatch(authFail(err.response.data));
             });
 

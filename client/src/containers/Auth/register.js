@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
+
 import { connect } from 'react-redux';
+
+import { withRouter } from 'react-router-dom';
+
+import { classnames } from 'classnames';
+
 import * as actions from '../../store/actions/index'; 
 
 class Register extends Component {
@@ -25,19 +31,11 @@ class Register extends Component {
             password2: this.state.password2,
         };
 
-       this.props.onAuth(newUserData, true);
+       this.props.onAuth(newUserData, true, this.props.history);
     }
 
     render () {
         const errors = this.props.errors;
-
-        //class
-        const inputClass = 'form-control form-control-lg ';
-        const nameClasses =  inputClass + ( errors.name ? ' is-invalid' : null );
-        const emailClasses =  inputClass + ( errors.email ? ' is-invalid' : null );
-        const passwordClasses =  inputClass + ( errors.password ? ' is-invalid' : null );
-        const password2Classes =  inputClass + ( errors.password2 ? ' is-invalid' : null );
-
         return (
             <div className="register">
                 <div className="container">
@@ -49,47 +47,60 @@ class Register extends Component {
                             <div className="form-group">
                                 <input 
                                     type="text" 
-                                    className={nameClasses}
+                                    className={classnames('form-control form-control-lg', {
+                                        'is-invalid': errors.name
+                                    })}
                                     placeholder="Name" 
                                     name="name" 
                                     value={this.state.name}
                                     onChange={this.onChangeHandler} />
 
-                                {errors.name ? <div className="invalid-feedback">{errors.name}</div> :null }
+                                {errors.name ? <div className="invalid-feedback">{errors.name}</div> : null}
                             </div>
                             <div className="form-group">
                                 <input 
                                     type="email" 
-                                    className={emailClasses}
+                                    className={classnames('form-control form-control-lg', {
+                                        'is-invalid': errors.email
+                                    })}
                                     placeholder="Email Address" 
                                     name="email"
                                     value={this.state.email}
                                     onChange={this.onChangeHandler} />
                                 
-                                {errors.email ? <div className="invalid-feedback">{errors.email}</div> :null }
+                                {errors.email ? <div className="invalid-feedback">{errors.email}</div> : null}
+
                             <small className="form-text text-muted">This site uses Gravatar so if you want a profile image, use a Gravatar email</small>
                             </div>
                             <div className="form-group">
                                 <input 
                                     type="password" 
-                                    className={passwordClasses}
+                                    className={classnames('form-control form-control-lg', {
+                                        'is-invalid': errors.password
+                                    })}
                                     placeholder="Password" 
                                     name="password"
                                     value={this.state.password}
                                     onChange={this.onChangeHandler} />
-                                {errors.password ? <div className="invalid-feedback">{errors.password}</div> :null }
+
+                                {errors.password ? <div className="invalid-feedback">{errors.password}</div> : null}
+
                             </div>
                             <div className="form-group">
                                 <input 
                                     type="password" 
-                                    className={password2Classes}
+                                    className={classnames('form-control form-control-lg', {
+                                        'is-invalid': errors.password2
+                                    })}
                                     placeholder="Confirm Password" 
                                     name="password2"
                                     value={this.state.password2}
                                     onChange={this.onChangeHandler} />
-                                {errors.password2 ? <div className="invalid-feedback">{errors.password2}</div> :null }
+
+                                {errors.password2 ? <div className="invalid-feedback">{errors.password2}</div> : null}
+
                             </div>
-                            <input type="submit" className="btn btn-info btn-block mt-4" />
+                            <input type="submit" className="btn btn-info btn-block mt-4" value="Sign Up"/>
                         </form>
                         </div>
                     </div>
@@ -100,13 +111,15 @@ class Register extends Component {
 };
 
 const mapStateToProps = state => {
-    errors: state.auth.errors
+    return {
+        errors: state.auth.errors
+    };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuth: (userData, isSignup) => dispatch(actions.auth(userData, isSignup))
-    }
+        onAuth: (userData, isSignup, history) => dispatch(actions.auth(userData, isSignup, history))
+    };
 };
 
-export default connect(null, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Register));
