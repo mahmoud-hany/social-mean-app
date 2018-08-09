@@ -14,11 +14,11 @@ class Login extends Component {
     onSubmitHandler = (e) => {
         e.preventDefault();
 
-        const userData = {
-            email: this.state.email,
-            password: this.state.password
-        };
-        console.log(userData)
+        // // collect data
+        // const userData = {
+        //     email: this.state.email,
+        //     password: this.state.password
+        // };
     }
 
     render () {
