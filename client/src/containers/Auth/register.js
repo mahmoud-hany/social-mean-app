@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-
-import axios from 'axios';
+import { connect } from 'react-redux';
+import * as actions from '../../store/actions/index'; 
 
 class Register extends Component {
     state = {
         name: '',
         email: '',
         password: '',
-        password2: '',
-        errors: {}
+        password2: ''
     };
 
     onChangeHandler = (e) => {
@@ -18,7 +17,7 @@ class Register extends Component {
     onSubmitHandler = (e) => {
         e.preventDefault();
 
-       // collect form data
+        // collect form data
         const newUserData = {
             name: this.state.name,
             email: this.state.email,
@@ -26,17 +25,11 @@ class Register extends Component {
             password2: this.state.password2,
         };
 
-        axios.post('/api/users/register', newUserData)
-            .then(res => {
-                console.log(res.data);
-            })
-            .catch(err => {
-                this.setState({errors: err.response.data})
-            })
+       this.props.onAuth(newUserData, true);
     }
 
     render () {
-        const { errors } = this.state;
+        const errors = this.props.errors;
 
         //class
         const inputClass = 'form-control form-control-lg ';
@@ -106,4 +99,14 @@ class Register extends Component {
     }
 };
 
-export default Register;
+const mapStateToProps = state => {
+    errors: state.auth.errors
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onAuth: (userData, isSignup) => dispatch(actions.auth(userData, isSignup))
+    }
+};
+
+export default connect(null, mapDispatchToProps)(Register);
