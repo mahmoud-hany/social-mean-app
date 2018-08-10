@@ -15,12 +15,6 @@ class Dashboard extends Component {
     
     render () {
 
-        // let dashboardContent = <h4>Display Profile</h4>;
-
-        // if (this.props.profile) {
-
-        // }
-
         let dashboardContent;
 
         if (this.props.loading || this.props.profile === null) {
