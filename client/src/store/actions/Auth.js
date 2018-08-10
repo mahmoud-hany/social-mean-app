@@ -30,13 +30,6 @@ export const authFail = (errors) => {
     };
 };
 
-// redirect user to login page In case of Registration success
-export const redirectToLogin = () => {
-    return {
-        type: actionTypes.REDIRECT_TO_LOGIN
-    }
-}
-
 // logout user
 export const logout = () => {
     // remove token from localStorage

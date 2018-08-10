@@ -12,6 +12,7 @@ class Navbar extends Component {
         e.preventDefault();
 
         this.props.onLogout();
+        this.props.onClearProfileStateOnLogout();
     }
 
     render () {
@@ -78,7 +79,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onLogout: () => dispatch(actions.logout())
+        onLogout: () => dispatch(actions.logout()),
+        onClearProfileStateOnLogout: () => dispatch(actions.clearProfileStateOnLogout())
     }
 };
 

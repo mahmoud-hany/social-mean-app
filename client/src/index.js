@@ -15,9 +15,11 @@ import registerServiceWorker from './registerServiceWorker';
 
 //Reducers files
 import authReducer from './store/reducer/auth';
+import profileReducer from './store/reducer/profiles';
 
 const rootReducer = combineReducers({
-    auth: authReducer
+    auth: authReducer,
+    profile: profileReducer
 });
 
 const composeEnhancers = process.env.NODE_ENV === 'development' ? 

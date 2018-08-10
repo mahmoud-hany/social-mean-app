@@ -24,6 +24,11 @@ const AsyncRegister = asyncComponent(() => {
     return import('./containers/Auth/register');
 });
 
+// lazyLoading Dashboard
+const AsyncDashboard = asyncComponent(() => {
+    return import('./containers/dashboard/dashboard');
+});
+
 //check if the there's token in the localstorage
 class App extends Component {
 
@@ -37,8 +42,10 @@ class App extends Component {
                 <Navbar />
 
                 <Route exact path="/" component={Landing}/>
+                
                 <Route exact path="/login" component={AsyncLogin} />
                 <Route exact path="/register" component={AsyncRegister} />
+                <Route exact path="/dashboard" component={AsyncDashboard} />
                 
                 <Footer />
             </div>
