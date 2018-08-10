@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Route, withRouter } from 'react-router-dom';
+import { Route, withRouter, Switch, Redirect } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
@@ -29,6 +29,12 @@ const AsyncDashboard = asyncComponent(() => {
     return import('./containers/dashboard/dashboard');
 });
 
+// lazyLoading CreateProfile
+const AsyncCreateProfile = asyncComponent(() => {
+    return import('./containers/create-profile/createProfile');
+});
+
+
 //check if the there's token in the localstorage
 class App extends Component {
 
@@ -37,21 +43,41 @@ class App extends Component {
     }
 
     render() {
+        let privateRoutes;
+
+        if ( this.props.isAuthenticated ) {
+            privateRoutes = (
+                <Switch>
+                    <Route exact path="/dashboard" component={AsyncDashboard} />
+                    <Route exact path="/create-profile" component={AsyncCreateProfile} />
+                </Switch>
+            );
+        } else {
+            privateRoutes = <Redirect to="/"/>;
+        }
+    
         return (
             <div className="App">
                 <Navbar />
 
+                {/* Puplic Routes*/}
                 <Route exact path="/" component={Landing}/>
-                
                 <Route exact path="/login" component={AsyncLogin} />
                 <Route exact path="/register" component={AsyncRegister} />
-                <Route exact path="/dashboard" component={AsyncDashboard} />
                 
+                {/* Private Routes */}
+                {privateRoutes}
                 <Footer />
             </div>
         );
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        isAuthenticated: state.auth.isAuthenticated
+    };
+};
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -59,4 +85,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

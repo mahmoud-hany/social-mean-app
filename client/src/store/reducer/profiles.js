@@ -24,7 +24,8 @@ const profilesReducer = (state = intialState, action) => {
             return {
                 ...state,
                 loading: false,
-                errors: action.errors
+                errors: action.errors,
+                profile: {}
             };
         case actionTypes.CLEAR_PROFILE_STATE_ON_LOGOUT:
             return {
