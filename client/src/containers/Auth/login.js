@@ -12,6 +12,12 @@ class Login extends Component {
         password: '',
     }
 
+    componentDidMount () {
+        if (this.props.isAuthenticated) {
+            this.props.history.push('/dashboard');
+        }
+    }
+
     onChangeHandler = (e) => {
         this.setState({ [e.target.name]: e.target.value })
     }
@@ -25,17 +31,12 @@ class Login extends Component {
             password: this.state.password
         };
 
-        this.props.onAuth(userData);
-
+        this.props.onAuth(userData, this.props.history);
 
     }
 
     render () {
-        const errors = this.props.errors ? this.props.errors : null;
-        
-       if (this.props.isAuthenticated) {
-            this.props.history.push('/dashboard')
-        }
+        const errors = this.props.errors;
 
         return (
             <div className="login">
@@ -49,26 +50,26 @@ class Login extends Component {
                                 <input 
                                     type="email" 
                                     className={classnames('form-control form-control-lg', {
-                                        'is-invalid': errors.email
+                                        'is-invalid': errors ? (errors.email ):false
                                     })} 
                                     placeholder="Email Address" 
                                     name="email"
                                     value={this.state.email}
                                     onChange={this.onChangeHandler} />
-                                {errors.email ? <div className="invalid-feedback">{errors.email}</div> : null}
+                                {errors ? (errors.email ? <div className="invalid-feedback">{errors.email}</div> : null) : null}
                             </div>
                             <div className="form-group">
                                 <input 
                                     type="password" 
                                     className={classnames('form-control form-control-lg', {
-                                        'is-invalid': errors.password
+                                        'is-invalid': errors ? (errors.password ) : false
                                     })}  
                                     placeholder="Password" 
                                     name="password"
                                     value={this.state.password}
                                     onChange={this.onChangeHandler} />
 
-                                {errors.password ? <div className="invalid-feedback">{errors.password}</div> : null}
+                                {errors ? (errors.password ? <div className="invalid-feedback">{errors.password}</div> : null) : null}
                             </div>
                             <input 
                                 type="submit" className="btn btn-info btn-block mt-4" />
@@ -90,7 +91,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuth: (userData) => dispatch(actionTypes.auth(userData, false, null))
+        onAuth: (userData, history) => dispatch(actionTypes.auth(userData, false, history))
     }
 } 
 

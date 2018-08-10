@@ -24,7 +24,6 @@ const AsyncRegister = asyncComponent(() => {
     return import('./containers/Auth/register');
 });
 
-
 //check if the there's token in the localstorage
 class App extends Component {
 

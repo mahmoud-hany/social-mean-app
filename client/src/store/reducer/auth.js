@@ -12,14 +12,21 @@ const authReducer = (state = intialState , action) => {
         case actionTypes.AUTH_SUCESS: 
             return {
                 ...state,
-                // userData
                 isAuthenticated: !isEmpty(action.token),
-                user: action.userData
+                user: action.userData,
+                errors: null        
             }
         case actionTypes.AUTH_FAIL:
             return {
                 ...state,
+                isAuthenticated: false,
                 errors: action.errors
+            }
+        case actionTypes.AUTH_LOGOUT: 
+            return {
+                ...state,
+                isAuthenticated: false,
+                user: null
             }
         default: 
             return state;

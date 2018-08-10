@@ -41,11 +41,13 @@ export const redirectToLogin = () => {
 export const logout = () => {
     // remove token from localStorage
     localStorage.removeItem('Token');
+    // remove token from request headers
+    setAuthStart(false);
+
     return {
         type: actionTypes.AUTH_LOGOUT
     };
 };
-
 
 export const auth = (userData, isSignup, history) => {
     return dispatch => {
@@ -77,6 +79,9 @@ export const auth = (userData, isSignup, history) => {
 
                 // store the token and userData in state
                 dispatch(authSucess(token, decodedToken));
+                
+                //Redirect user to dashboard
+                history.push('/dashboard');
             })
             .catch(err => {
                 // store error in the error state 
@@ -97,8 +102,7 @@ export const checkAuthState = () => {
             // store the token and userData in state
             dispatch(authSucess(token, decodedToken));
         } else {
-            // dispatch(logout());
-            dispatch(authFail());
+            dispatch(logout());
         }
     }
 }
