@@ -1,20 +1,24 @@
 import * as actionTypes from '../actions/actionTypes';
+import isEmpty from '../../validation/isEmpty';
 
 const intialState = {
+    user: null,
     errors: {},
-    redirectToLogin: false
+    isAuthenticated: false
 };
 
 const authReducer = (state = intialState , action) => {
     switch(action.type){
         case actionTypes.AUTH_SUCESS: 
             return {
-                ...this.state,
-                //get token and user id
+                ...state,
+                // userData
+                isAuthenticated: !isEmpty(action.token),
+                user: action.userData
             }
         case actionTypes.AUTH_FAIL:
             return {
-                ...this.state,
+                ...state,
                 errors: action.errors
             }
         default: 

@@ -4,6 +4,8 @@ import axios from 'axios';
 
 import jwt_decode from 'jwt-decode';
 
+import setAuthStart from './utils';
+
 //start request
 export const authStart = () => {
     return {
@@ -12,9 +14,10 @@ export const authStart = () => {
 };
 
 //get response [ Request Successeded ]
-export const authSucess = (userData) => {
+export const authSucess = (token, userData) => {
     return {
         type: actionTypes.AUTH_SUCESS,
+        token,
         userData
     };
 };
@@ -34,6 +37,16 @@ export const redirectToLogin = () => {
     }
 }
 
+// logout user
+export const logout = () => {
+    // remove token from localStorage
+    localStorage.removeItem('Token');
+    return {
+        type: actionTypes.AUTH_LOGOUT
+    };
+};
+
+
 export const auth = (userData, isSignup, history) => {
     return dispatch => {
         // turn loding on
@@ -47,8 +60,6 @@ export const auth = (userData, isSignup, history) => {
         // send request
         axios.post(`/api/users/${url}`, userData)
             .then(res => {
-                console.log(res);
-                
                 //Redirect user if he register to login
                 if (isSignup) {
                     history.push('/login');
@@ -57,22 +68,39 @@ export const auth = (userData, isSignup, history) => {
 
                 // get the token and user data when user login
                 const token = res.data.token;
-                console.log(token);
-
-                //store token in localStorage
+                // store token in localStorage
                 localStorage.setItem('Token', token);
+                // set token to Auth header
+                setAuthStart(token);
 
                 const decodedToken = jwt_decode(token);
-                console.log(decodedToken);
 
-                dispatch(authSucess(decodedToken));
+                // store the token and userData in state
+                dispatch(authSucess(token, decodedToken));
             })
             .catch(err => {
-                console.log(err)
+                // store error in the error state 
                 dispatch(authFail(err.response.data));
             });
-
     }
 };
+
+// Check for Authentication
+export const checkAuthState = () => {
+    return dispatch => {
+        const token = localStorage.getItem('Token');
+        if (token) {
+            // set token to Auth header
+            setAuthStart(token);
+
+            const decodedToken = jwt_decode(token);
+            // store the token and userData in state
+            dispatch(authSucess(token, decodedToken));
+        } else {
+            // dispatch(logout());
+            dispatch(authFail());
+        }
+    }
+}
 
 //check If there's a token exist

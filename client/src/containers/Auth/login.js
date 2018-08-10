@@ -26,11 +26,17 @@ class Login extends Component {
         };
 
         this.props.onAuth(userData);
+
+
     }
 
     render () {
-        const errors = this.props.errors;
+        const errors = this.props.errors ? this.props.errors : null;
         
+       if (this.props.isAuthenticated) {
+            this.props.history.push('/dashboard')
+        }
+
         return (
             <div className="login">
                 <div className="container">
@@ -77,7 +83,8 @@ class Login extends Component {
 
 const mapStateToProps = state => {
     return {
-        errors: state.auth.errors 
+        errors: state.auth.errors,
+        isAuthenticated: state.auth.isAuthenticated,
     };
 };
 
