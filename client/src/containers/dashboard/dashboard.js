@@ -6,11 +6,20 @@ import { Link } from 'react-router-dom';
 
 import * as actions from '../../store/actions/index';
 
+import DashboardContent from '../../components/dashboard/dashboard';
+
 import Spinner from '../../components/spinner/spinner';
 
 class Dashboard extends Component {
     componentDidMount () {
         this.props.onFetchProfile();
+    }
+
+    deleteAcountHandler = () => {
+        // confirm action
+        if (window.confirm("Are you sure ? your profile and acount will be deleted And this can't be undone!") ) {
+            this.props.onDleteAcount();
+        }
     }
     
     render () {
@@ -23,12 +32,12 @@ class Dashboard extends Component {
             // Check if user have profile 
             if (Object.keys(this.props.profile).length > 0) {
                 //user don'have profile
-                dashboardContent = <h4>Display Profile</h4>
+                dashboardContent = <DashboardContent user={this.props.user} clicked={this.deleteAcountHandler}/>
             } else {
                 //user don't have profile
                 dashboardContent = (
                     <div>
-                        <p className="lead text-muted"> Welcome { this.props.user.name }</p>
+                        <p className="lead text-muted"> Welcome <span className="text-primary">{ this.props.user.name }</span></p>
                         <p>You have'nt yet setup a profile, Please add some info</p>
                         <Link to="/create-profile" className="btn btn-info btn-lg" > Create Profile </Link>
                     </div>
@@ -62,7 +71,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchProfile: () => dispatch(actions.fetchProfile())
+        onFetchProfile: () => dispatch(actions.fetchProfile()),
+        onDleteAcount: () => dispatch(actions.deleteAcount())
     };
 };
 

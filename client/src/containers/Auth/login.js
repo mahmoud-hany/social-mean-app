@@ -72,7 +72,7 @@ class Login extends Component {
                                 {errors ? (errors.password ? <div className="invalid-feedback">{errors.password}</div> : null) : null}
                             </div>
                             <input 
-                                type="submit" className="btn btn-info btn-block mt-4" />
+                                type="submit" className="btn btn-info btn-block mt-4" value="Login"/>
                         </form>
                         </div>
                     </div>

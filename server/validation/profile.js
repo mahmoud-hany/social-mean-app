@@ -60,6 +60,12 @@ const validateProfileInputts = data => {
         }
     }
 
+    if (!isEmpty(data.instagram)) {
+        if (!validator.isURL(data.instagram)) {
+            errors.instagram = 'Not a vaild URL';
+        }
+    }
+
     return {
         errors,
         isVaild: isEmpty(errors)

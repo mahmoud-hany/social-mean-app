@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 
 import {connect} from 'react-redux';
 
-import Input from '../../components/form/input';
+import {Link} from 'react-router-dom';
 
-import * as actions from '../../store/actions/index'; 
+import Input from '../../../components/form/input';
 
-class CreateProfile extends Component {
+import isEmpty from '../../../validation/isEmpty';
+
+import * as actions from '../../../store/actions/index'; 
+
+class EditProfile extends Component {
     state = {
         handle: '',
         company: '',
@@ -25,6 +29,50 @@ class CreateProfile extends Component {
         youtube: '',
         errors: {}
     };
+
+    componentDidMount () {
+        // get data from profile if exist
+        const profile = this.props.profile;
+
+        if (profile) {
+            // get skills and join  it and seprate them with comma
+            const skills = profile.skills.join(','); 
+
+            //if profile fields does'nt exist make it empty string
+            profile.company = !isEmpty(profile.company) ? profile.company : ''; 
+            profile.website = !isEmpty(profile.website) ? profile.website : ''; 
+            profile.location = !isEmpty(profile.location) ? profile.location : ''; 
+            profile.githubusername = !isEmpty(profile.githubusername) ? profile.githubusername : ''; 
+            profile.bio = !isEmpty(profile.bio) ? profile.bio : ''; 
+
+            // socail links
+            profile.social = !isEmpty(profile.social) ? profile.social :{};
+
+            profile.facebook = !isEmpty(profile.social.facebook) ? profile.social.facebook :'';
+            profile.twitter = !isEmpty(profile.social.twitter) ? profile.social.twitter :'';
+            profile.github = !isEmpty(profile.social.github) ? profile.social.github :'';
+            profile.linkedin = !isEmpty(profile.social.linkedin) ? profile.social.linkedin :'';
+            profile.youtube = !isEmpty(profile.social.youtube) ? profile.social.youtube :'';
+            profile.instagram = !isEmpty(profile.social.instagram) ? profile.social.instagram :'';
+
+            this.setState({
+                handle: profile.handle,
+                company: profile.company,
+                skills: skills,
+                status: profile.status,
+                bio: profile.bio,
+                website:  profile.website,
+                location: profile.location,
+                githubusername: profile.githubusername,
+                facebook: profile.facebook,
+                twitter: profile.twitter,
+                linkedin: profile.linkedin,
+                instagram:  profile.instagram,
+                github: profile.github,
+                youtube: profile.youtube,
+            });
+        }
+    }
 
     onChangeHandler = (e) => {
         this.setState({ [e.target.name]: e.target.value });
@@ -62,7 +110,8 @@ class CreateProfile extends Component {
     }
     
     render() {
-        // const errors = this.props.errors;
+        const errors = this.props.errors;
+        
         let socialInputs;
         if (this.state.displaySocialInputs) {
             socialInputs = (
@@ -72,6 +121,7 @@ class CreateProfile extends Component {
                         elementConfig={{type: 'text', placeholder: 'Facebook Page URL', name: 'facebook'}}
                         value={this.state.facebook}
                         changed={this.onChangeHandler}
+                        errors={errors}
                         iconClasses="fab fa-facebook-f"/>
 
                     <Input 
@@ -79,6 +129,7 @@ class CreateProfile extends Component {
                         elementConfig={{type: 'text', placeholder: 'Linkedin Profile URL', name: 'linkedin'}}
                         value={this.state.linkedin}
                         changed={this.onChangeHandler}
+                        errors={errors}
                         iconClasses="fab fa-linkedin-in"/>
 
                     <Input 
@@ -86,6 +137,7 @@ class CreateProfile extends Component {
                         elementConfig={{type: 'text', placeholder: 'YouTube Channel URL', name: 'youtube'}}
                         value={this.state.youtube}
                         changed={this.onChangeHandler}
+                        errors={errors}
                         iconClasses="fab fa-youtube"/>
 
                     <Input 
@@ -93,6 +145,7 @@ class CreateProfile extends Component {
                         elementConfig={{type: 'text', placeholder: 'Instagram Page URL', name: 'instagram'}}
                         value={this.state.instagram}
                         changed={this.onChangeHandler}
+                        errors={errors}
                         iconClasses="fab fa-instagram"/>
 
                     <Input 
@@ -100,6 +153,7 @@ class CreateProfile extends Component {
                         elementConfig={{type: 'text', placeholder: 'Twitter Profile URL', name: 'twitter'}}
                         value={this.state.twitter}
                         changed={this.onChangeHandler}
+                        errors={errors}
                         iconClasses="fab fa-twitter"/>
 
                     <Input 
@@ -107,20 +161,21 @@ class CreateProfile extends Component {
                         elementConfig={{type: 'text', placeholder: 'Github Page URL', name: 'github'}}
                         value={this.state.github}
                         changed={this.onChangeHandler}
+                        errors={errors}
                         iconClasses="fab fa-github"/>
                 </div>
             );
         }
-
-        const errors = this.props.errors;
-
         return (
             <div className="createProfile">
                 <div className="container">
                     <div className="row">
                         <div className="col-md-8 m-auto">
-                            <h1 className="text-center display-4">Create Your Profile</h1>
-                            <p className="lead text-center text-muted"> Let's get some information to make your profile stand out</p>
+
+                            <Link to="dashboard" className="btn btn-light mb-5">
+                                Dashboard
+                            </Link>
+                            <h1 className="text-center display-4">Edit Your Profile</h1>
 
                             <form onSubmit={this.onSubmitHandler}>
                                
@@ -164,6 +219,7 @@ class CreateProfile extends Component {
                                     elementConfig={{type: 'text', placeholder: 'Website', name: 'website'}}
                                     value={this.state.website}
                                     changed={this.onChangeHandler}
+                                    errors={errors}
                                     info="Could be your own or a company website"/>
                                 
                                 <Input 
@@ -218,7 +274,8 @@ class CreateProfile extends Component {
 
 const mapStateToProps = state => {
     return {
-       errors: state.profile.errors
+       errors: state.profile.errors,
+       profile: state.profile.profile
     };
 };
 
@@ -228,4 +285,4 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);

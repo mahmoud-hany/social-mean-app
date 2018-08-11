@@ -9,7 +9,7 @@ const intialState = {
 
 const profilesReducer = (state = intialState, action) => {
     switch (action.type) {
-        case actionTypes.GET_PROFILE_START:
+        case actionTypes.LOADING:
             return {
                 ...state,
                 loading: true

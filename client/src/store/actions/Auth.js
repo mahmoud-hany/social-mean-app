@@ -69,6 +69,7 @@ export const auth = (userData, isSignup, history) => {
                 setAuthStart(token);
 
                 const decodedToken = jwt_decode(token);
+                console.log(decodedToken);
 
                 // store the token and userData in state
                 dispatch(authSucess(token, decodedToken));

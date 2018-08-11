@@ -2,11 +2,7 @@ import * as actionTypes from './actionTypes';
 
 import axios from 'axios';
 
-export const createProfileStart = () => {
-    return {
-        type: actionTypes.CREATE_PROFILE_START
-    };
-};
+import { loading } from './profiles';
 
 export const createProfileFail = (errors) => {
     return {
@@ -15,11 +11,10 @@ export const createProfileFail = (errors) => {
     };
 };
 
-
 export const createProfile = (profileData, history) => {
     return dispatch => {
         //intializr loading
-        dispatch(createProfileStart());
+        dispatch(loading());
 
         //send data to server
         axios.post('/api/profile', profileData)

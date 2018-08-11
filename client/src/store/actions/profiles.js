@@ -2,14 +2,16 @@ import * as actionTypes from './actionTypes';
 
 import axios from 'axios';
 
+import { authSucess } from './auth';
+
 /*
     -----------------------
     --  Fetch all profiles
 */
 // initialize loading
-export const getProfilesStart = () => {
+export const loading = () => {
     return {
-        type: actionTypes.GET_PROFILES_START
+        type: actionTypes.LOADING
     };
 };
 // update profiles state
@@ -30,7 +32,7 @@ export const getProfilesFail = (errors) => {
 export const fetchProfiles = () => {
     return dispatch => {
         //intialize loading
-        dispatch(getProfilesStart());
+        dispatch(loading());
 
         //start fetching profiles
         axios.get('/api/profile/all')
@@ -54,12 +56,6 @@ export const fetchProfiles = () => {
     --  GET user profile
 */
 
-// initialize loading
-export const getProfileStart = () => {
-    return {
-        type: actionTypes.GET_PROFILE_START
-    };
-};
 // update profiles state
 export const getProfileSuccess = (profile) => {
     return {
@@ -79,7 +75,7 @@ export const getProfileFail = (errors) => {
 export const fetchProfile = () => {
     return dispatch => {
         //intialize loading
-        dispatch(getProfileStart());
+        dispatch(loading());
 
         //start fetching profiles
         axios.get('/api/profile')
@@ -103,5 +99,29 @@ export const fetchProfile = () => {
 export const clearProfileStateOnLogout = () => {
     return {
         type: actionTypes.CLEAR_PROFILE_STATE_ON_LOGOUT
+    };
+};
+
+/*
+    -----------------------
+    --  Delete Acount and profile
+*/
+export const deleteAcount = () => {
+    return dispatch => {
+        dispatch(loading());
+
+        axios.delete('/api/profile')
+            .then(res => {
+                console.log(res.data);
+                
+                //log user out
+                //this funtion will update authentication state
+                dispatch(authSucess(null, null));
+                //Clear localstoeage
+                localStorage.removeItem('Token');
+            })
+            .catch(err => {
+                //Displat error and try agin
+            })
     };
 };

@@ -31,9 +31,12 @@ const input = (props) => {
 
                     <input  {...props.elementConfig} 
                             value={props.value}
-                            className="form-control form-control-lg"
+                            className={classnames('form-control form-control-lg', {
+                                'is-invalid': props.errors ? (props.errors[props.elementConfig.name]) : false
+                            })}
                             onChange={props.changed} />
-
+                    
+                    {props.errors ? (props.errors[props.elementConfig.name] ? <div className="invalid-feedback">{props.errors[props.elementConfig.name] }</div> : null) : null}
                 </div>      
             );
             break;

@@ -11,8 +11,10 @@ import './App.css';
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Footer from './components/layout/Footer';
+import EditProfile from './containers/dashboard/editProfile/editProfile';
 
 import asyncComponent from './hoc/asyncComponent';
+
 
 // lazyLoading login component
 const AsyncLogin = asyncComponent(() => {
@@ -31,9 +33,10 @@ const AsyncDashboard = asyncComponent(() => {
 
 // lazyLoading CreateProfile
 const AsyncCreateProfile = asyncComponent(() => {
-    return import('./containers/create-profile/createProfile');
+    return import('./containers/dashboard/create-profile/createProfile');
 });
 
+// lazyLoading Edit profile
 
 //check if the there's token in the localstorage
 class App extends Component {
@@ -50,6 +53,7 @@ class App extends Component {
                 <Switch>
                     <Route exact path="/dashboard" component={AsyncDashboard} />
                     <Route exact path="/create-profile" component={AsyncCreateProfile} />
+                    <Route exact path="/edit-profile" component={EditProfile} />
                 </Switch>
             );
         } else {
