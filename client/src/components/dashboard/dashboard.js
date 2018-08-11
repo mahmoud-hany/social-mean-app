@@ -4,7 +4,7 @@ import Buttons from './buttons';
 const DashboardContent = (props) => {
     return (
         <div>
-            <p className="lead text-muted"> Welcome {props.user.name} </p>
+            <p className="lead text-muted"> Welcome <span className="text-primary">{props.user.name}</span> </p>
             <Buttons />
 
             <h4>TODO: Experiecnces</h4>

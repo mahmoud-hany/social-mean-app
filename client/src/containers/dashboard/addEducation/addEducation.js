@@ -8,14 +8,13 @@ import Input from '../../../components/form/input';
 
 import * as actions from '../../../store/actions/index';
 
-class AddExperience extends Component {
+class AddEducation extends Component {
     state = {
-        title: '',
-        company: '',
-        location: '',
+        school: '',
+        degree: '',
+        fieldofstudy: '',
         from: '',
         to: '',
-        current: false,
         description: ''
     };
 
@@ -23,30 +22,26 @@ class AddExperience extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    onCheckedHandler = () => {
-        this.setState(prevState => ({current: !prevState.current}));
-    }
-
     onSubmitHandler = (e) => {
         e.preventDefault();
 
-        //add Expericence
-        const experienceData = {
-            title: this.state.title,
-            company: this.state.company,
-            location: this.state.location,
+        //add new education
+        const educationData = {
+            school: this.state.school,
+            degree: this.state.degree,
+            fieldofstudy: this.state.fieldofstudy,
             from: this.state.from,
             to: this.state.to,
-            current: this.state.current,
             description: this.state.description
         };
        
-        this.props.onAddExperience(experienceData, this.props.history);
+        this.props.onAddEducation(educationData, this.props.history);
     }
 
     render () {
 
         const errors = this.props.errors;
+        
         return (
             <div className="container">
                 <div className="row">
@@ -55,30 +50,30 @@ class AddExperience extends Component {
                             Dashboard
                         </Link>
                         
-                        <h1 className="display-4 text-center"> Add Your Experience </h1>
-                        <p className="lead text-muted text-center">Add any developer/programming positions that you have had in the past</p>
+                        <h1 className="display-4 text-center"> Add Your Education </h1>
+                        <p className="lead text-muted text-center">Add any school, bootcamp, etc that you have attended</p>
 
                         <form onSubmit={this.onSubmitHandler}>
                             <Input 
                                 elementType="input"
-                                elementConfig={{type: 'text', placeholder: 'Job title', name: 'title'}}
+                                elementConfig={{type: 'text', placeholder: 'School Or Bootcamp', name: 'school'}}
                                 errors={errors}
-                                value={this.state.title}
+                                value={this.state.school}
                                 changed={this.onChangeHandler}
                             />
 
                             <Input 
                                 elementType="input"
-                                elementConfig={{type: 'text', placeholder: 'Company', name: 'company'}}
+                                elementConfig={{type: 'text', placeholder: 'Degree Or Certificate', name: 'degree'}}
                                 errors={errors}
-                                value={this.state.company}
+                                value={this.state.degree}
                                 changed={this.onChangeHandler}
                             />
 
                             <Input 
                                 elementType="input"
-                                elementConfig={{type: 'text', placeholder: 'Location', name: 'location'}}
-                                value={this.state.location}
+                                elementConfig={{type: 'text', placeholder: 'Field Of Study', name: 'fieldofstudy'}}
+                                value={this.state.fieldofstudy}
                                 changed={this.onChangeHandler}
                             />
 
@@ -94,27 +89,17 @@ class AddExperience extends Component {
                             <h6>To Date</h6>
                             <Input 
                                 elementType="input"
-                                elementConfig={{type: 'date', name: 'to', disabled: this.state.current}}
+                                elementConfig={{type: 'date', name: 'to'}}
                                 value={this.state.to}
                                 changed={this.onChangeHandler}
                             />
-
-                            <div className="custom-control custom-checkbox mb-3">
-                                <input 
-                                    type="checkbox" 
-                                    name="current"
-                                    value={this.state.current}
-                                    onChange={this.onCheckedHandler}
-                                    className="custom-control-input" id="customCheck1" />
-                                <label className="custom-control-label" htmlFor="customCheck1">Current Job</label>
-                            </div>
 
                             <Input 
                                 elementType="textarea" 
                                 elementConfig={{placeholder: 'Job description', name: 'description'}}
                                 value={this.state.description}
                                 changed={this.onChangeHandler}
-                                info="Some of your responsabilities, etc"/>
+                                info="Tell us about your experience and what you learned"/>
 
                             <button className="btn btn-info btn-block mt-4" type="submit">Add</button>
                         </form>
@@ -133,10 +118,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddExperience: (experienceData, history) => dispatch(actions.addExperience(experienceData, history))
-    }
+        onAddEducation: (educationData, history) => dispatch(actions.addEducation(educationData, history))
+    };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddExperience);
-
-
+export default connect(mapStateToProps, mapDispatchToProps)(AddEducation);

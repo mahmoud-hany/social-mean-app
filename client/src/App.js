@@ -44,10 +44,10 @@ const AsyncAddExperience = asyncComponent(() => {
     return import('./containers/dashboard/addExperience/addExperience');
 });
 
-// // lazyLoading Add Experience
-// const AsyncAddEducation = asyncComponent(() => {
-//     return import('./containers/dashboard/addEducation/addEducation');
-// });
+// lazyLoading Add Experience
+const AsyncAddEducation = asyncComponent(() => {
+    return import('./containers/dashboard/addEducation/addEducation');
+});
 
 
 //check if the there's token in the localstorage
@@ -67,6 +67,7 @@ class App extends Component {
                     <Route exact path="/create-profile" component={AsyncCreateProfile} />
                     <Route exact path="/edit-profile" component={AsyncEditProfile} />
                     <Route exact path="/add-experience" component={AsyncAddExperience} />
+                    <Route exact path="/add-education" component={AsyncAddEducation} />
                     {/* <Route exact path="/add-education" component={AsyncAddEducation} /> */}
                 </Switch>
             );

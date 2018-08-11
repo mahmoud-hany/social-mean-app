@@ -140,6 +140,34 @@ export const addExperience = (experiecnceData, history) => {
             });
     }
 }
+/*
+    -----------------------
+    --  Add Education
+*/
+export const addEducationSuccess = () => {
+    return {
+        type: actionTypes.ADD_EDUCATION_SUCCESS
+    };
+};
+
+export const addEducation = (educationData, history) => {
+    return dispatch => {
+        dispatch(loading());
+
+        axios.post('/api/profile/add-education')
+            .then(res => {
+                console.log(res.data);
+                // stop loading
+                dispatch(addEducationSuccess());
+
+                //redirect user to dashboard
+                history.push('/dashboard');
+            })
+            .catch(err => {
+                dispatch(getErrors(err.response.err));
+            });
+    }
+}
 
 
 /*

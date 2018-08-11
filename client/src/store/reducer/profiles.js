@@ -43,6 +43,11 @@ const profilesReducer = (state = intialState, action) => {
                 ...state,
                 loading: false
             }
+        case actionTypes.ADD_EDUCATION_SUCCESS:
+            return {
+                ...state,
+                loading: false
+            }
         default:
             return state;
     }
