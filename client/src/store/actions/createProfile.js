@@ -1,15 +1,6 @@
-import * as actionTypes from './actionTypes';
-
 import axios from 'axios';
 
-import { loading } from './profiles';
-
-export const createProfileFail = (errors) => {
-    return {
-        type: actionTypes.CREATE_PROFILE_FAIL,
-        errors
-    };
-};
+import { loading, getErrors } from './profiles';
 
 export const createProfile = (profileData, history) => {
     return dispatch => {
@@ -25,7 +16,7 @@ export const createProfile = (profileData, history) => {
             })
             .catch(err => {
                 console.log(err.response.data);
-                dispatch(createProfileFail(err.response.data));
+                dispatch(getErrors(err.response.data));
             });
     }
 }

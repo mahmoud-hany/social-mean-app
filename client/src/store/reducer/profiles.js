@@ -27,16 +27,21 @@ const profilesReducer = (state = intialState, action) => {
                 errors: action.errors,
                 profile: {}
             };
-        case actionTypes.CREATE_PROFILE_FAIL:
-            return {
-                ...state,
-                errors: action.errors
-            };
         case actionTypes.CLEAR_PROFILE_STATE_ON_LOGOUT:
             return {
                 ...state,
                 errors: null,
                 profile: null,
+            }
+        case actionTypes.GET_ERRORS:
+            return {
+                ...state,
+                errors: action.errors
+            }
+        case actionTypes.ADD_EXPERIENCE_SUCCESS:
+            return {
+                ...state,
+                loading: false
             }
         default:
             return state;

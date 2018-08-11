@@ -7,7 +7,8 @@ export {
 export {
     fetchProfile,
     clearProfileStateOnLogout,
-    deleteAcount
+    deleteAcount,
+    addExperience
 } from './profiles';
 
 export {

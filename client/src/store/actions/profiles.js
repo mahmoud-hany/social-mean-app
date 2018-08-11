@@ -4,16 +4,25 @@ import axios from 'axios';
 
 import { authSucess } from './auth';
 
-/*
-    -----------------------
-    --  Fetch all profiles
-*/
 // initialize loading
 export const loading = () => {
     return {
         type: actionTypes.LOADING
     };
 };
+// get errors
+export const getErrors = (errors) => {
+    return {
+        type: actionTypes.GET_ERRORS,
+        errors
+    };
+};
+
+/*
+    -----------------------
+    --  Fetch all profiles
+*/
+
 // update profiles state
 export const getProfilesSuccess = (profiles) => {
     return {
@@ -101,6 +110,37 @@ export const clearProfileStateOnLogout = () => {
         type: actionTypes.CLEAR_PROFILE_STATE_ON_LOGOUT
     };
 };
+
+/*
+    -----------------------
+    --  Add Experiecnce
+*/
+export const addExperienceSuccess = () => {
+    return {
+        type: actionTypes.ADD_EXPERIENCE_SUCCESS
+    };
+};
+
+export const addExperience = (experiecnceData, history) => {
+    return dispatch => {
+        dispatch(loading());
+
+        axios.post('api/profile/experience', experiecnceData)
+            .then(res => {
+                console.log(res.data);
+                // stop loading
+                dispatch(addExperienceSuccess());
+                // redirect user
+                history.push('/dashboard')
+            })
+            .catch(err => {
+                console.log(err.response.data);
+                // update errors object
+                dispatch(getErrors(err.response.data));
+            });
+    }
+}
+
 
 /*
     -----------------------

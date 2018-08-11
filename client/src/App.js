@@ -11,10 +11,8 @@ import './App.css';
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Footer from './components/layout/Footer';
-import EditProfile from './containers/dashboard/editProfile/editProfile';
 
 import asyncComponent from './hoc/asyncComponent';
-
 
 // lazyLoading login component
 const AsyncLogin = asyncComponent(() => {
@@ -37,6 +35,20 @@ const AsyncCreateProfile = asyncComponent(() => {
 });
 
 // lazyLoading Edit profile
+const AsyncEditProfile = asyncComponent(() => {
+    return import('./containers/dashboard/editProfile/editProfile');
+});
+
+// lazyLoading Add Experience
+const AsyncAddExperience = asyncComponent(() => {
+    return import('./containers/dashboard/addExperience/addExperience');
+});
+
+// // lazyLoading Add Experience
+// const AsyncAddEducation = asyncComponent(() => {
+//     return import('./containers/dashboard/addEducation/addEducation');
+// });
+
 
 //check if the there's token in the localstorage
 class App extends Component {
@@ -53,7 +65,9 @@ class App extends Component {
                 <Switch>
                     <Route exact path="/dashboard" component={AsyncDashboard} />
                     <Route exact path="/create-profile" component={AsyncCreateProfile} />
-                    <Route exact path="/edit-profile" component={EditProfile} />
+                    <Route exact path="/edit-profile" component={AsyncEditProfile} />
+                    <Route exact path="/add-experience" component={AsyncAddExperience} />
+                    {/* <Route exact path="/add-education" component={AsyncAddEducation} /> */}
                 </Switch>
             );
         } else {
