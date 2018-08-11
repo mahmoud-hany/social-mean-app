@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 
 import Input from '../../components/form/input';
 
+import * as actions from '../../store/actions/index'; 
+
 class CreateProfile extends Component {
     state = {
         handle: '',
@@ -33,7 +35,31 @@ class CreateProfile extends Component {
         this.setState( prevState => ({
             displaySocialInputs: !prevState.displaySocialInputs
         }))
-    } 
+    }
+
+    onSubmitHandler = (e) => {
+        e.preventDefault();
+
+        const profileData = {
+            handle: this.state.handle,
+            company: this.state.company,
+            skills: this.state.skills,
+            status: this.state.status,
+            bio: this.state.bio,
+            website: this.state.website,
+            location: this.state.location,
+            githubusername: this.state.githubusername,
+            facebook: this.state.facebook,
+            twitter: this.state.twitter,
+            linkedin: this.state.linkedin,
+            instagram: this.state.instagram,
+            github: this.state.github,
+            youtube: this.state.youtube
+        };
+
+        // Dispatch request
+        this.props.onCreateProfile(profileData, this.props.history);
+    }
     
     render() {
         // const errors = this.props.errors;
@@ -46,14 +72,14 @@ class CreateProfile extends Component {
                         elementConfig={{type: 'text', placeholder: 'Facebook Page URL', name: 'facebook'}}
                         value={this.state.facebook}
                         changed={this.onChangeHandler}
-                        iconClasses="fab fa-facebook"/>
+                        iconClasses="fab fa-facebook-f"/>
 
                     <Input 
                         elementType="inputWithIcon" 
                         elementConfig={{type: 'text', placeholder: 'Linkedin Profile URL', name: 'linkedin'}}
                         value={this.state.linkedin}
                         changed={this.onChangeHandler}
-                        iconClasses="fab fa-linkedin"/>
+                        iconClasses="fab fa-linkedin-in"/>
 
                     <Input 
                         elementType="inputWithIcon" 
@@ -86,6 +112,8 @@ class CreateProfile extends Component {
             );
         }
 
+        const errors = this.props.errors;
+
         return (
             <div className="createProfile">
                 <div className="container">
@@ -94,13 +122,14 @@ class CreateProfile extends Component {
                             <h1 className="text-center display-4">Create Your Profile</h1>
                             <p className="lead text-center text-muted"> Let's get some information to make your profile stand out</p>
 
-                            <form>
+                            <form onSubmit={this.onSubmitHandler}>
                                
                                 <Input 
                                     elementType="input" 
                                     elementConfig={{type: 'text', placeholder: 'Profile Handel', name: 'handle'}}
                                     value={this.state.handle}
                                     changed={this.onChangeHandler}
+                                    errors={errors}
                                     info="A unique handle for your profile Url. Your full name or company name, nickname, etc..."/>
                                     
                                 <Input 
@@ -118,8 +147,9 @@ class CreateProfile extends Component {
                                             {value: 'Other', displayValue: 'Other'}            
                                         ]
                                     }}
-                                    value={this.state.value}
+                                    value={this.state.status}
                                     changed={this.onChangeHandler}
+                                    errors={errors}
                                     info="Give us an idea of where you are at in your career"/>
 
                                 <Input 
@@ -148,6 +178,7 @@ class CreateProfile extends Component {
                                     elementConfig={{type: 'text', placeholder: 'Skills', name: 'skills'}}
                                     value={this.state.skills}
                                     changed={this.onChangeHandler}
+                                    errors={errors}
                                     info="Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)"/>
 
                                 <Input 
@@ -174,6 +205,8 @@ class CreateProfile extends Component {
 
                                 {socialInputs}
 
+                                <button className="btn btn-info btn-block mt-4" type="submit">Submit</button>
+
                             </form>
                         </div>
                     </div>
@@ -185,8 +218,14 @@ class CreateProfile extends Component {
 
 const mapStateToProps = state => {
     return {
-       
+       errors: state.profile.errors
     };
 };
 
-export default connect(mapStateToProps)(CreateProfile);
+const mapDispatchToProps = dispatch => {
+    return {
+        onCreateProfile: (profileData, history) => dispatch(actions.createProfile(profileData, history))
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProfile);

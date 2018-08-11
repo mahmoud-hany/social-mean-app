@@ -11,11 +11,12 @@ const input = (props) => {
                     <input  {...props.elementConfig} 
                             value={props.value}
                             className={classnames('form-control form-control-lg', {
-                                'is-invalid': props.errors
+                                'is-invalid': props.errors ? (props.errors[props.elementConfig.name]) : false
                             })} 
                             onChange={props.changed} />
                     
                     <small className="form-text text-muted">{props.info}</small>
+                    {props.errors ? (props.errors[props.elementConfig.name] ? <div className="invalid-feedback">{props.errors[props.elementConfig.name] }</div> : null) : null}
                 </div>      
             );
             break;
@@ -51,7 +52,13 @@ const input = (props) => {
         case 'select': 
             formElement = (
                 <div className="form-group">
-                    <select onChange={props.changed} className="form-control form-control-lg">       
+                    <select 
+                        onChange={props.changed} 
+                        name={props.elementConfig.name}
+                        value={props.value}
+                        className={classnames('form-control form-control-lg', {
+                            'is-invalid': props.errors ? (props.errors[props.elementConfig.name]) : false
+                        })}>       
                         {
                             props.elementConfig.options.map(option => {
                                 return (
@@ -63,6 +70,7 @@ const input = (props) => {
                     </select>
 
                     <small className="form-text text-muted">{props.info}</small>
+                    {props.errors ? (props.errors[props.elementConfig.name] ? <div className="invalid-feedback">{props.errors[props.elementConfig.name] }</div> : null) : null}
                 </div>
             );
             break;

@@ -27,6 +27,11 @@ const profilesReducer = (state = intialState, action) => {
                 errors: action.errors,
                 profile: {}
             };
+        case actionTypes.CREATE_PROFILE_FAIL:
+            return {
+                ...state,
+                errors: action.errors
+            };
         case actionTypes.CLEAR_PROFILE_STATE_ON_LOGOUT:
             return {
                 ...state,

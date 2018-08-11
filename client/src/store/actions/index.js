@@ -8,3 +8,7 @@ export {
     fetchProfile,
     clearProfileStateOnLogout
 } from './profiles';
+
+export {
+    createProfile
+} from './createProfile';
