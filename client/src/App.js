@@ -15,6 +15,8 @@ import Footer from './components/layout/Footer';
 import asyncComponent from './hoc/asyncComponent';
 import PrivateRoute from './hoc/privateRoute';
 
+import profiles from './containers/profiles/profiles';
+
 // lazyLoading login component
 const AsyncLogin = asyncComponent(() => {
     return import('./containers/Auth/login');
@@ -66,7 +68,7 @@ class App extends Component {
                 <Route exact path="/" component={Landing}/>
                 <Route exact path="/login" component={AsyncLogin} />
                 <Route exact path="/register" component={AsyncRegister} />
-
+                <Route exact path="/profiles" component={profiles} />
                 <Switch>
                     <PrivateRoute
                         exact

@@ -19,47 +19,27 @@ export const getErrors = (errors) => {
 };
 
 /*
-    -----------------------
-    --  Fetch all profiles
-*/
-
-// update profiles state
-export const getProfilesSuccess = (profiles) => {
-    return {
-        type: actionTypes.GET_PROFILES_SUCCESS,
-        profiles
-    };
-};
-// update erors state
-export const getProfilesFail = (errors) => {
-    return {
-        type: actionTypes.GET_PROFILES_FAIL,
-        errors
-    };
-};
-
-export const fetchProfiles = () => {
+    ----------------------
+    --  Create profile
+*/ 
+export const createProfile = (profileData, history) => {
     return dispatch => {
-        //intialize loading
+        //intializr loading
         dispatch(loading());
 
-        //start fetching profiles
-        axios.get('/api/profile/all')
+        //send data to server
+        axios.post('/api/profile', profileData)
             .then(res => {
                 console.log(res.data);
-
-                const profiles = res.data.profiles;
-
-                // update the state with our profiles
-                dispatch(getProfilesSuccess(profiles));
-            }).catch(err => {
+                //redirect to dashboard
+                history.push('/dashboard');
+            })
+            .catch(err => {
                 console.log(err.response.data);
-
-                dispatch(getProfilesFail(err.response.data));
+                dispatch(getErrors(err.response.data));
             });
-
-    };
-};
+    }
+}
 /*
     -----------------------
     --  GET user profile
@@ -205,6 +185,54 @@ export const deleteEducation = (id) => {
                 // update errors object
                 dispatch(getErrors(err.response.data));
             });
+    };
+};
+
+/*
+    -----------------------
+    --  Fetch all profiles
+*/
+export const getProfilesStart = () => {
+    return {
+        type: actionTypes.GET_PROFILES_START
+    }
+}
+
+// update profiles state
+export const getProfilesSuccess = (profiles) => {
+    return {
+        type: actionTypes.GET_PROFILES_SUCCESS,
+        profiles
+    };
+};
+// update erors state
+export const getProfilesFail = (errors) => {
+    return {
+        type: actionTypes.GET_PROFILES_FAIL,
+        errors
+    };
+};
+
+export const fetchProfiles = () => {
+    return dispatch => {
+        //intialize loading
+        dispatch(getProfilesStart());
+
+        //start fetching profiles
+        axios.get('/api/profile/all')
+            .then(res => {
+                console.log(res.data);
+
+                const profiles = res.data.profiles;
+
+                // update the state with our profiles
+                dispatch(getProfilesSuccess(profiles));
+            }).catch(err => {
+                console.log(err.response.data);
+
+                dispatch(getProfilesFail(err.response.data));
+            });
+
     };
 };
 

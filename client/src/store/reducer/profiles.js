@@ -48,6 +48,23 @@ const profilesReducer = (state = intialState, action) => {
                 ...state,
                 loading: false
             }
+        case actionTypes.GET_PROFILES_START: 
+            return {
+                ...state,
+                loading: true
+            }
+        case actionTypes.GET_PROFILES_SUCCESS:
+            return {
+                ...state,
+                profiles: action.profiles,
+                loading: false,
+                errors: null 
+            }
+        case actionTypes.GET_PROFILES_FAIL:
+            return {    
+                ...state,
+                errors: action.errors
+            }
         default:
             return state;
     }

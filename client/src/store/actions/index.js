@@ -6,6 +6,7 @@ export {
 
 export {
     fetchProfile,
+    createProfile,
     clearProfileStateOnLogout,
     deleteAcount,
     addExperience,
@@ -15,5 +16,5 @@ export {
 } from './profiles';
 
 export {
-    createProfile
-} from './createProfile';
+    fetchProfiles
+} from './profiles';

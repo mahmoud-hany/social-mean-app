@@ -19,7 +19,7 @@ import profileReducer from './store/reducer/profiles';
 
 const rootReducer = combineReducers({
     auth: authReducer,
-    profile: profileReducer
+    profile: profileReducer,
 });
 
 const composeEnhancers = process.env.NODE_ENV === 'development' ? 
