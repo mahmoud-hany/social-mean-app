@@ -9,7 +9,9 @@ export {
     clearProfileStateOnLogout,
     deleteAcount,
     addExperience,
-    addEducation
+    addEducation,
+    deleteExperience,
+    deleteEducation
 } from './profiles';
 
 export {

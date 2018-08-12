@@ -1,5 +1,7 @@
 import React from 'react';
 import Buttons from './buttons';
+import Experiecnces from './Experience';
+import Educations from './Education';
 
 const DashboardContent = (props) => {
     return (
@@ -7,8 +9,9 @@ const DashboardContent = (props) => {
             <p className="lead text-muted"> Welcome <span className="text-primary">{props.user.name}</span> </p>
             <Buttons />
 
-            <h4>TODO: Experiecnces</h4>
-            <h4>TODO: Education</h4>
+            <Experiecnces experiencesArray={props.experiencesArray} clicked={props.deleteExperience}/>
+        
+            <Educations educationsArray={props.educationsArray} clicked={props.deleteEducation} />
 
             <div className="mt-5">
                 <button 

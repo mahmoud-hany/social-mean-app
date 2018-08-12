@@ -326,7 +326,7 @@ router.delete('/experience/:exp_id', passport.authenticate('jwt', { session: fal
 
             // save changes
             profile.save()
-                .then( () => res.json({message: 'Experience was removed successfully'}) )
+                .then( profile => res.json(profile) )
                 .catch( err => res.status(400).json(err) );
 
         })
@@ -366,7 +366,7 @@ router.delete('/education/:edu_id', passport.authenticate('jwt', { session: fals
 
             // save changes
             profile.save()
-                .then( () => res.json({message: 'Education was removed successfully'}) )
+                .then( profile => res.json(profile) )
                 .catch( err => res.status(400).json(err) );
 
         })

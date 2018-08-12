@@ -21,6 +21,14 @@ class Dashboard extends Component {
             this.props.onDleteAcount();
         }
     }
+
+    deleteExperienceHandler = (ID) => {
+        this.props.onDeleteExperience(ID);
+    }
+
+    deleteEducationHandler = (ID) => {
+        this.props.onDeleteEducation(ID);
+    }
     
     render () {
 
@@ -32,7 +40,13 @@ class Dashboard extends Component {
             // Check if user have profile 
             if (Object.keys(this.props.profile).length > 0) {
                 //user don'have profile
-                dashboardContent = <DashboardContent user={this.props.user} clicked={this.deleteAcountHandler}/>
+                dashboardContent = <DashboardContent 
+                                        user={this.props.user} 
+                                        experiencesArray={this.props.profile.experience}
+                                        educationsArray={this.props.profile.education}
+                                        clicked={this.deleteAcountHandler}
+                                        deleteExperience={this.deleteExperienceHandler}
+                                        deleteEducation={this.deleteEducationHandler}/>
             } else {
                 //user don't have profile
                 dashboardContent = (
@@ -72,7 +86,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchProfile: () => dispatch(actions.fetchProfile()),
-        onDleteAcount: () => dispatch(actions.deleteAcount())
+        onDleteAcount: () => dispatch(actions.deleteAcount()),
+        onDeleteExperience: (id) => dispatch(actions.deleteExperience(id)),
+        onDeleteEducation: (id) => dispatch(actions.deleteEducation(id))
     };
 };
 

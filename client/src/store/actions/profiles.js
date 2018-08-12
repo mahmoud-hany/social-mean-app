@@ -134,12 +134,31 @@ export const addExperience = (experiecnceData, history) => {
                 history.push('/dashboard')
             })
             .catch(err => {
-                console.log(err.response.data);
                 // update errors object
                 dispatch(getErrors(err.response.data));
             });
     }
 }
+
+/*
+    -----------------------
+    --  Delete Experience
+*/
+export const deleteExperience = (id) => {
+    return dispatch => {
+        axios.delete(`api/profile/experience/${id}`)
+            .then(res => {
+                console.log(res.data)
+                // get the updated profile again
+                dispatch(getProfileSuccess(res.data));
+            })
+            .catch(err => {
+                // update errors object
+                dispatch(getErrors(err.response.data));
+            });
+    };
+};
+
 /*
     -----------------------
     --  Add Education
@@ -154,7 +173,7 @@ export const addEducation = (educationData, history) => {
     return dispatch => {
         dispatch(loading());
 
-        axios.post('/api/profile/add-education')
+        axios.post('/api/profile/education', educationData)
             .then(res => {
                 console.log(res.data);
                 // stop loading
@@ -164,11 +183,30 @@ export const addEducation = (educationData, history) => {
                 history.push('/dashboard');
             })
             .catch(err => {
-                dispatch(getErrors(err.response.err));
+                // update errors object
+                dispatch(getErrors(err.response.data));
             });
     }
 }
 
+/*
+    -----------------------
+    --  Delete Education
+*/
+export const deleteEducation = (id) => {
+    return dispatch => {
+        axios.delete(`api/profile/education/${id}`)
+            .then(res => {
+                console.log(res.data)
+                // get the updated profile again
+                dispatch(getProfileSuccess(res.data));
+            })
+            .catch(err => {
+                // update errors object
+                dispatch(getErrors(err.response.data));
+            });
+    };
+};
 
 /*
     -----------------------

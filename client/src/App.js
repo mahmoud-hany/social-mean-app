@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Route, withRouter, Switch, Redirect } from 'react-router-dom';
+import { Route, withRouter, Switch } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
@@ -13,6 +13,7 @@ import Landing from './components/layout/Landing';
 import Footer from './components/layout/Footer';
 
 import asyncComponent from './hoc/asyncComponent';
+import PrivateRoute from './hoc/privateRoute';
 
 // lazyLoading login component
 const AsyncLogin = asyncComponent(() => {
@@ -58,34 +59,51 @@ class App extends Component {
     }
 
     render() {
-        let privateRoutes;
-
-        if ( this.props.isAuthenticated ) {
-            privateRoutes = (
-                <Switch>
-                    <Route exact path="/dashboard" component={AsyncDashboard} />
-                    <Route exact path="/create-profile" component={AsyncCreateProfile} />
-                    <Route exact path="/edit-profile" component={AsyncEditProfile} />
-                    <Route exact path="/add-experience" component={AsyncAddExperience} />
-                    <Route exact path="/add-education" component={AsyncAddEducation} />
-                    {/* <Route exact path="/add-education" component={AsyncAddEducation} /> */}
-                </Switch>
-            );
-        } else {
-            privateRoutes = <Redirect to="/"/>;
-        }
-    
         return (
-            <div className="App">
+            <div>
                 <Navbar />
-
-                {/* Puplic Routes*/}
+    
                 <Route exact path="/" component={Landing}/>
                 <Route exact path="/login" component={AsyncLogin} />
                 <Route exact path="/register" component={AsyncRegister} />
-                
-                {/* Private Routes */}
-                {privateRoutes}
+
+                <Switch>
+                    <PrivateRoute
+                        exact
+                        path="/dashboard"
+                        component={AsyncDashboard}
+                    />
+                </Switch>
+                <Switch>
+                    <PrivateRoute
+                        exact
+                        path="/create-profile"
+                        component={AsyncCreateProfile}
+                    />
+                </Switch>
+
+                 <Switch>
+                    <PrivateRoute
+                        exact
+                        path="/edit-profile"
+                        component={AsyncEditProfile}
+                    />
+                </Switch>
+                <Switch>
+                    <PrivateRoute
+                        exact
+                        path="/add-experience"
+                        component={AsyncAddExperience}
+                    />
+                </Switch>
+                <Switch>
+                    <PrivateRoute
+                        exact
+                        path="/add-education"
+                        component={AsyncAddEducation}
+                    />
+                </Switch>
+
                 <Footer />
             </div>
         );

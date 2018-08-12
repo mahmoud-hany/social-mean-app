@@ -73,6 +73,7 @@ class AddEducation extends Component {
                             <Input 
                                 elementType="input"
                                 elementConfig={{type: 'text', placeholder: 'Field Of Study', name: 'fieldofstudy'}}
+                                errors={errors}
                                 value={this.state.fieldofstudy}
                                 changed={this.onChangeHandler}
                             />
