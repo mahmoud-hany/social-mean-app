@@ -93,6 +93,30 @@ export const clearProfileStateOnLogout = () => {
 
 /*
     -----------------------
+    --  Get profile by handle
+*/
+export const getProfileByHandle = (handle) => dispatch => {
+    //intialize loading
+    dispatch(loading());
+
+    axios.get(`/api/profile/handle/${handle}`)
+        .then(res => {
+            console.log(res.data);
+
+            const profile = res.data;
+
+            // update the state with our profiles
+            dispatch(getProfileSuccess(profile));
+        })
+        .catch(err => {
+            console.log(err.response.data)
+            dispatch(getProfileFail(err.response.data));
+        });
+}
+
+
+/*
+    -----------------------
     --  Add Experiecnce
 */
 export const addExperienceSuccess = () => {

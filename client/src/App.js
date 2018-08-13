@@ -16,6 +16,7 @@ import asyncComponent from './hoc/asyncComponent';
 import PrivateRoute from './hoc/privateRoute';
 
 import profiles from './containers/profiles/profiles';
+import profile from './containers/profile/profile';
 
 // lazyLoading login component
 const AsyncLogin = asyncComponent(() => {
@@ -52,7 +53,6 @@ const AsyncAddEducation = asyncComponent(() => {
     return import('./containers/dashboard/addEducation/addEducation');
 });
 
-
 //check if the there's token in the localstorage
 class App extends Component {
 
@@ -69,6 +69,7 @@ class App extends Component {
                 <Route exact path="/login" component={AsyncLogin} />
                 <Route exact path="/register" component={AsyncRegister} />
                 <Route exact path="/profiles" component={profiles} />
+                <Route exact path="/profile/:handle" component={profile} />
                 <Switch>
                     <PrivateRoute
                         exact

@@ -12,13 +12,13 @@ const ProfileItem = (props) => {
             <div className="row">
                 <div className="col-2">
                     <div className="imgBox">
-                        <img src={profile.user.avatar} alt={profile.user.name}/>
+                        <img src={profile.user.avatar} className="rounded-circle" alt={profile.user.name}/>
                     </div>
                 </div>
                 <div className="col-lg-6 col-md-4 col-8">
                     <h3>{profile.user.name}</h3>
                     <p>
-                        {profile.status} {isEmpty(profile.company) ? null : (<span> at</span>) + profile.company}
+                        {profile.status} {isEmpty(profile.company) ? null : " at " + profile.company}
                     </p>
                     <p>
                         {isEmpty(profile.location) ? null : profile.location}
