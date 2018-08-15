@@ -13,6 +13,8 @@ import ProfileAbout from '../../components/profile/ProfileAbout';
 import ProfileCreds from '../../components/profile/ProfileCreds';
 import ProfileGithub from '../../components/profile/Profile.github';
 
+import NotFound from '../../components/notFound/NotFound';
+
 class Profile extends Component {
     componentDidMount () {
         console.log(this.props.match.params.handle);
@@ -26,9 +28,9 @@ class Profile extends Component {
     render () {
         let profileContent = null ;
         
-        const profile = this.props.profile;  
+        const { profile, errors, loading } = this.props;  
 
-        if (profile === null || this.props.loading) {
+        if (profile === null || loading) {
             // the profile is not exist yet
             profileContent = <Spinner />
         } else {
@@ -37,10 +39,14 @@ class Profile extends Component {
                 <div>
                     <ProfileHeader profile={profile}/>
                     <ProfileAbout profile={profile}/>
-                    <ProfileCreds />
-                    <ProfileGithub />
+                    <ProfileCreds profile={profile}/>
+                    { profile.githubusername ? <ProfileGithub username={profile.githubusername} /> : null }
                 </div>
             );
+        }
+
+        if (errors) {
+            profileContent = <NotFound />;
         }
 
         return (

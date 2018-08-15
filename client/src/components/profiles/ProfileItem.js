@@ -8,7 +8,7 @@ const ProfileItem = (props) => {
     const profile = props.profile;
 
     return (
-        <div className="card card-body mt-2">
+        <div className="card card-body mb-5">
             <div className="row">
                 <div className="col-2">
                     <div className="imgBox">
