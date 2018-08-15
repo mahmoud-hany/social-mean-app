@@ -16,3 +16,10 @@ export {
     deleteExperience,
     deleteEducation
 } from './profiles';
+
+export {
+    fetchPosts,
+    addPost,
+    deletePost,
+    like
+} from './posts';

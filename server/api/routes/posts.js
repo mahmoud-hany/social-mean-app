@@ -25,7 +25,6 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
 
     const newPost = new Post({
         user: req.user.id,
-        title: req.body.title,
         text: req.body.text,
         name: req.body.name,
         avatar: req.body.avatar
@@ -48,7 +47,7 @@ router.get('/', (req, res) => {
         .sort({ data: -1 }) // sort by the date
         .then(posts => {
             if ( posts.length === 0 ) {
-                res.status(404).json({ message: 'There are no posts '});
+                res.json({ message: 'There are no posts '});
             }
 
             res.json({

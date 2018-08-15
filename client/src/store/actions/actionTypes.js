@@ -9,20 +9,24 @@ export const REDIRECT_TO_LOGIN = 'REDIRECT_TO_LOGIN';
 //porfile actions
 export const LOADING = 'LOADING';
 export const GET_ERRORS = 'GET_ERRORS';
-
 // Fetch current user profile
 export const GET_PROFILE_SUCCESS = 'GET_PROFILE_SUCCESS';
 export const GET_PROFILE_FAIL = 'GET_PROFILE_FAIL';
 export const CLEAR_PROFILE_STATE_ON_LOGOUT = 'CLEAR_PROFILE_STATE_ON_LOGOUT';
-
 // Fetch useres profiles
 export const GET_PROFILES_START = 'GET_PROFILES_START';
 export const GET_PROFILES_SUCCESS = 'GET_PROFILES_SUCCESS';
 export const GET_PROFILES_FAIL = 'GET_PROFILES_FAIL';
-
-//add experiecnce
+// add experiecnce
 export const ADD_EXPERIENCE_SUCCESS = 'ADD_EXPERIENCE_SUCCESS';
 export const ADD_EDUCATION_SUCCESS = 'ADD_EDUCATION_SUCCESS';
-
-//Create Profile
+// Create Profile
 export const CREATE_PROFILE_SUCCESS = 'CREATE_PROFILE_SUCCESS';
+
+// posts actions
+export const POST_LOADING = 'POST_LOADING';
+export const POST_ERRORS = 'POST_ERRORS';
+export const GET_POST = 'GET_POST'; // fetch one post
+export const GET_POSTS = 'GET_POSTS'; // fetch all posts
+export const DELETE_POST = 'DELETE_POST';
+export const ADD_POST = 'ADD_POST';

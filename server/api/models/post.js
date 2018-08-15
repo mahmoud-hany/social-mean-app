@@ -5,13 +5,6 @@ const postSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    title: {
-        type: String,
-        required: true,
-        trim: true,
-        minlength: 4,
-        maxlength: 40
-    },
     text: {
         type: String,
         required: true,

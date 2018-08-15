@@ -33,6 +33,16 @@ class Navbar extends Component {
         if (user && isAuthenticated) {
             navLinks = (
                 <ul className="navbar-nav ml-auto">
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/feed" title="posts">
+                            Posts
+                        </Link> 
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/dashboard" title="dashboard">
+                            Dashboard
+                        </Link>
+                    </li>
                    <li className="nav-item">
                         <a  href="" 
                             onClick={this.onLogoutHandler} 

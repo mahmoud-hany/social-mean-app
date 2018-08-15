@@ -53,6 +53,12 @@ const AsyncAddEducation = asyncComponent(() => {
     return import('./containers/dashboard/addEducation/addEducation');
 });
 
+// lazyLoading Feed
+const AsyncPosts = asyncComponent(() => {
+    return import('./containers/posts/posts');
+});
+
+
 //check if the there's token in the localstorage
 class App extends Component {
 
@@ -66,10 +72,14 @@ class App extends Component {
                 <Navbar />
     
                 <Route exact path="/" component={Landing}/>
+
                 <Route exact path="/login" component={AsyncLogin} />
                 <Route exact path="/register" component={AsyncRegister} />
+
                 <Route exact path="/profiles" component={profiles} />
                 <Route exact path="/profile/:handle" component={profile} />
+                
+                <Route exact path="/feed" component={AsyncPosts} />
                 <Switch>
                     <PrivateRoute
                         exact
