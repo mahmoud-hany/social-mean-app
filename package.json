@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Building app using Mean stack latest technology like [Reat - express ]",
   "main": "server.js",
+  "engines": {
+    "node": "10.7.0"
+  },
   "scripts": {
     "client-install": "npm install --prefix client",
     "start": "node server/server.js",
@@ -11,9 +14,6 @@
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
-  },
-  "engines": {
-    "node": "10.7.0"
   },
   "author": "MahmoudHany",
   "license": "ISC",
