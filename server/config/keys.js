@@ -1,4 +1,5 @@
-module.exports = {
-    mongoURI: 'mongodb://mahmoud:123abc@ds113452.mlab.com:13452/mean-app',
-    tokenKey: 'MAHMOUD'
-};
+if (process.env.NODE_ENV === 'production') {
+    module.exports = require('./keys_prod');
+} else {
+    module.exports = require('./keys_dev');
+}
