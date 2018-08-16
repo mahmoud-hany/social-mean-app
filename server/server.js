@@ -30,7 +30,9 @@ app.use('/api/profile', profileRoutes);
 //if we are in production serve the static fiels
 if (process.env.NODE_ENV === 'production') {
     // set static folder
-    app.use(express.static('../client/build'));
+
+    app.use(express.static(path.join(__dirname, '../client', 'build')));
+
     app.get('*', (req, res) => {
         res.sendFile(path.join(__dirname, '../client', 'build', 'index.html'))
     });
