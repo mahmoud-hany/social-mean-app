@@ -15,9 +15,6 @@ import Footer from './components/layout/Footer';
 import asyncComponent from './hoc/asyncComponent';
 import PrivateRoute from './hoc/privateRoute';
 
-import profiles from './containers/profiles/profiles';
-import profile from './containers/profile/profile';
-
 // lazyLoading login component
 const AsyncLogin = asyncComponent(() => {
     return import('./containers/Auth/login');
@@ -53,10 +50,27 @@ const AsyncAddEducation = asyncComponent(() => {
     return import('./containers/dashboard/addEducation/addEducation');
 });
 
-// lazyLoading Feed
+// lazyLoading profile
+const AsyncProfile = asyncComponent(() => {
+    return import('./containers/profile/profile');
+});
+
+// lazyLoading profiles
+const AsyncProfiles = asyncComponent(() => {
+    return import('./containers/profiles/profiles');
+});
+
+// lazyLoading posts Feed 
 const AsyncPosts = asyncComponent(() => {
     return import('./containers/posts/posts');
 });
+
+// lazyLoading post single
+const AsyncPost = asyncComponent(() => {
+    return import('./containers/posts/post/post');
+});
+
+
 
 
 //check if the there's token in the localstorage
@@ -76,10 +90,23 @@ class App extends Component {
                 <Route exact path="/login" component={AsyncLogin} />
                 <Route exact path="/register" component={AsyncRegister} />
 
-                <Route exact path="/profiles" component={profiles} />
-                <Route exact path="/profile/:handle" component={profile} />
+                <Route exact path="/profiles" component={AsyncProfiles} />
+                <Route exact path="/profile/:handle" component={AsyncProfile} />
                 
-                <Route exact path="/feed" component={AsyncPosts} />
+                <Switch>
+                    <PrivateRoute
+                        exact
+                        path="/posts"
+                        component={AsyncPosts}
+                    />
+                </Switch>
+                <Switch>
+                    <PrivateRoute
+                        exact
+                        path="/posts/:post_id"
+                        component={AsyncPost}
+                    />
+                </Switch>
                 <Switch>
                     <PrivateRoute
                         exact
@@ -94,7 +121,6 @@ class App extends Component {
                         component={AsyncCreateProfile}
                     />
                 </Switch>
-
                  <Switch>
                     <PrivateRoute
                         exact
@@ -107,6 +133,13 @@ class App extends Component {
                         exact
                         path="/add-experience"
                         component={AsyncAddExperience}
+                    />
+                </Switch>
+                <Switch>
+                    <PrivateRoute
+                        exact
+                        path="/add-education"
+                        component={AsyncAddEducation}
                     />
                 </Switch>
                 <Switch>

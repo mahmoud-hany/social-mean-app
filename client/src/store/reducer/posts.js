@@ -21,13 +21,13 @@ const PostReducer = (state = initialState, action) => {
                 errors: null,
                 loading: false
             };
-        // case actionTypes.GET_POST: 
-        //     return {
-        //         ...state,
-        //         posts: action.posts,
-        //         errors: null,
-        //         loading: false
-        //     }
+        case actionTypes.GET_POST: 
+            return {
+                ...state,
+                post: action.post,
+                errors: null,
+                loading: false
+            }
         case actionTypes.ADD_POST: 
             return {
                 ...state,

@@ -22,7 +22,7 @@ const PostItem = (props) => {
 
                 <div className="col-md-10">
           
-                    <p className="lead">{post.text}</p>
+                    <p className="lead text-muted">{post.text}</p>
 
                     <button type="button" 
                             onClick={props.like} 

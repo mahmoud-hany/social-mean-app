@@ -34,7 +34,7 @@ class Navbar extends Component {
             navLinks = (
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item">
-                        <Link className="nav-link" to="/feed" title="posts">
+                        <Link className="nav-link" to="/posts" title="posts">
                             Posts
                         </Link> 
                     </li>

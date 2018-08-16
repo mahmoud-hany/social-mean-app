@@ -20,6 +20,9 @@ export {
 export {
     fetchPosts,
     addPost,
+    fetchPost,
     deletePost,
-    like
+    like,
+    addComment,
+    deleteComment
 } from './posts';

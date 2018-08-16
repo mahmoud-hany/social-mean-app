@@ -89,3 +89,60 @@ export const like = (postId) => dispatch => {
             dispatch(postErrors(err.response.data));
         });
 };
+
+/*
+    -----------------
+    - get post by its id
+*/
+export const getPost = (post) => ({
+    type: actionTypes.GET_POST,
+    post
+});
+
+export const fetchPost = (postId) => dispatch => {
+    axios.get(`/api/posts/${postId}`)
+        .then(res => {
+            console.log(res.data);
+            dispatch(getPost(res.data));
+        })
+        .catch(err => {
+            console.log(err.response.data);
+            dispatch(postErrors(err.response.data));
+        });
+};
+
+/*
+    -----------------
+    - Add comments
+*/
+export const addComment = (postId, comment) => dispatch => {
+    console.log(postId);
+
+    axios.post(`/api/posts/comment/${postId}`, comment)
+        .then(res => {
+            console.log(res.data.post)
+            // get post after adding the comment again
+            dispatch(fetchPost(res.data.post._id));
+        })
+        .catch(err => {
+            console.log(err.response.data)
+            dispatch(postErrors(err.response.data));
+        });
+};
+
+/*
+    -----------------
+    - Delete comment
+*/
+export const deleteComment = (commentId, postId) => dispatch => {
+    axios.delete(`/api/posts/comment/${postId}/${commentId}`)
+        .then(res => {
+            console.log(res.data.post)
+            // get post after removeing the comment
+            dispatch(fetchPost(res.data.post._id));
+        })
+        .catch(err => {
+            console.log(err.response.data)
+            dispatch(postErrors(err.response.data));
+        });
+};
